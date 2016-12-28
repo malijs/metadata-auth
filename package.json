@@ -1,6 +1,6 @@
 {
   "name": "mali-metadata-auth",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Mali metadata authorization middleware",
   "main": "index.js",
   "repository": {

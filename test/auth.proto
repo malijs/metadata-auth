@@ -5,6 +5,8 @@ package auth;
 service AuthService {
   rpc Fn1 (Request) returns (Response) {}
   rpc Fn2 (Request) returns (Response) {}
+  rpc Fn3 (Request) returns (Response) {}
+  rpc Fn4 (Request) returns (Response) {}
 }
 
 message Request {

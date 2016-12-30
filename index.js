@@ -1,11 +1,20 @@
+const create = require('create-grpc-error')
+
 /**
  * Mali authorization metadata middleware.
  * If the call has metadata with "authorization" string property the specified function is called
  * @module mali-metadata-auth
  *
  * @param  {Options} options
- * @param  {String} options.error optional string for error to throw in case authorization is not present
- *                               Default: <code>"Not authorized"</code>
+ * @param  {String|Object|Function} options.error optional Error creation options.
+ *                                                If <code>String</code> the message for Error to throw in case
+ *                                                authorization is not present.
+ *                                                If <code>Object</code> the error options with <code>message</code>,
+ *                                                <code>code</code>, and <code>metadata</code> properties. See <code>create-grpc-error</code>
+ *                                                module.
+ *                                                If <code>Function</code> a function with signature <code>(ctx)</code>
+ *                                                called to create an error. Must return an <code>Error</code> instanse.
+ *                                                Default: <code>"Not Authorized"</code>
  * @param  {Function} fn The middleware function to execute
  *
  * @example
@@ -22,18 +31,27 @@ module.exports = function (options, fn) {
     options = {}
   }
 
-  if (typeof options.error !== 'string' || !options.error) {
-    options.error = 'Not Authorized'
+  let errFn = errorGenerator
+  if (typeof options.error === 'string') {
+    errFn = () => errorGenerator(options.error)
+  } else if (typeof options.error === 'object') {
+    errFn = () => create(options.error.message || 'Not Authorized', options.error.code, options.error.metadata)
+  } else if (typeof options.error === 'function') {
+    errFn = options.error
   }
 
   return function auth (ctx, next) {
-    if (!ctx.metadata) throw new Error(options.error)
+    if (!ctx.metadata) throw errFn()
 
     const keys = Object.keys(ctx.metadata)
-    if (!keys.length) throw new Error(options.error)
+    if (!keys.length) throw errFn()
 
-    const key = keys.find(k => k.toLowerCase() === 'authorization')
-    if (!key) throw new Error(options.error)
+    const key = keys.find(k => k === 'authorization')
+    if (!key) throw errFn()
     return fn(ctx.metadata[key], ctx, next)
   }
+}
+
+function errorGenerator (message) {
+  return new Error(message || 'Not Authorized')
 }

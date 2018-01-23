@@ -46,7 +46,7 @@ module.exports = function (options, fn) {
     const keys = Object.keys(ctx.metadata)
     if (!keys.length) throw errFn()
 
-    const key = keys.find(k => k === 'authorization')
+    const key = keys.find(k => k.toLowerCase() === 'authorization')
     if (!key) throw errFn()
     return fn(ctx.metadata[key], ctx, next)
   }

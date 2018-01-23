@@ -75,12 +75,12 @@ test('Should fail with fn1 without authorization', async t => {
   t.true(error.message.indexOf('Not Authorized') >= 0)
 })
 
-test.only('Should fail with fn1 without correct authorization', async t => {
+test('Should fail with fn1 without correct authorization', async t => {
   t.plan(2)
   const meta = new grpc.Metadata()
   meta.add('Authorization', 'bar')
   const error = await t.throws(client.fn1({ message: 'hello' }, meta))
-  t.is(error.message, 'Wrong value')
+  t.true(error.message.indexOf('Wrong value') >= 0)
 })
 
 test('Should work with fn1 with correct authorization', async t => {
@@ -104,7 +104,7 @@ test('Should work with fn1 with correct authorization 2', async t => {
 test('Should fail with fn2 withouth metadata', async t => {
   t.plan(2)
   const error = await t.throws(client.fn2({ message: 'hello' }))
-  t.true(error.message.indexOf('Unuthorized') >= 0)
+  t.true(error.message.indexOf('Unauthorized') >= 0)
 })
 
 test('Should fail with fn2 without authorization', async t => {
@@ -112,7 +112,7 @@ test('Should fail with fn2 without authorization', async t => {
   const meta = new grpc.Metadata()
   meta.add('foo', 'bar')
   const error = await t.throws(client.fn2({ message: 'hello' }, meta))
-  t.true(error.message.indexOf('Unuthorized') >= 0)
+  t.true(error.message.indexOf('Unauthorized') >= 0)
 })
 
 test('Should fail with fn2 without correct authorization', async t => {
@@ -120,7 +120,7 @@ test('Should fail with fn2 without correct authorization', async t => {
   const meta = new grpc.Metadata()
   meta.add('Authorization', 'bar')
   const error = await t.throws(client.fn2({ message: 'hello' }, meta))
-  t.is(error.message, 'Wrong value')
+  t.true(error.message.indexOf('Wrong value') >= 0)
 })
 
 test('Should work with fn2 with correct authorization', async t => {
@@ -196,7 +196,7 @@ test('Should work with fn3 with correct authorization 2', async t => {
 test('Should fail with fn4 withouth metadata', async t => {
   t.plan(6)
   const error = await t.throws(client.fn4({ message: 'hello' }))
-  t.true(error.message.indexOf('Unuthorized') >= 0)
+  t.true(error.message.indexOf('Unauthorized') >= 0)
   t.truthy(error.metadata)
   t.true(error.metadata instanceof grpc.Metadata)
   t.is(error.code, 4000)
@@ -209,7 +209,7 @@ test('Should fail with fn4 without authorization', async t => {
   const meta = new grpc.Metadata()
   meta.add('foo', 'bar')
   const error = await t.throws(client.fn4({ message: 'hello' }, meta))
-  t.true(error.message.indexOf('Unuthorized') >= 0)
+  t.true(error.message.indexOf('Unauthorized') >= 0)
   t.truthy(error.metadata)
   t.true(error.metadata instanceof grpc.Metadata)
   t.is(error.code, 4000)
@@ -222,7 +222,7 @@ test('Should fail with fn4 without correct authorization', async t => {
   const meta = new grpc.Metadata()
   meta.add('Authorization', 'bar')
   const error = await t.throws(client.fn4({ message: 'hello' }, meta))
-  t.is(error.message, 'Unauthorized 4')
+  t.true(error.message.indexOf('Unauthorized 4') >= 0)
   t.truthy(error.metadata)
   t.true(error.metadata instanceof grpc.Metadata)
   t.is(error.code, 4004)

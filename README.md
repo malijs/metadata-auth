@@ -1,13 +1,12 @@
 # mali-metadata-auth
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/malijs/metadata-auth.svg)](https://greenkeeper.io/)
-
 Mali metadata authorization middleware
 
 [![npm version](https://img.shields.io/npm/v/mali-metadata-auth.svg?style=flat-square)](https://www.npmjs.com/package/mali-metadata-auth)
 [![build status](https://img.shields.io/travis/malijs/metadata-auth/master.svg?style=flat-square)](https://travis-ci.org/malijs/metadata-auth)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)
 [![License](https://img.shields.io/github/license/malijs/metadata-auth.svg?style=flat-square)](https://raw.githubusercontent.com/malijs/metadata-auth/master/LICENSE)
+[![Greenkeeper badge](https://badges.greenkeeper.io/malijs/metadata-auth.svg)](https://greenkeeper.io/)
 
 ## API Reference
 

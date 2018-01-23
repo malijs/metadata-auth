@@ -1,5 +1,7 @@
 # mali-metadata-auth
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/malijs/metadata-auth.svg)](https://greenkeeper.io/)
+
 Mali metadata authorization middleware
 
 [![npm version](https://img.shields.io/npm/v/mali-metadata-auth.svg?style=flat-square)](https://www.npmjs.com/package/mali-metadata-auth)

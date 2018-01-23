@@ -32,6 +32,7 @@ app.use(auth(async (authValue, ctx, next) => {
   await next()
 })
 ```
+
 ## License
 
   Apache-2.0

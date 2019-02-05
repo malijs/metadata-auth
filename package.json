@@ -31,7 +31,7 @@
     "grpc-create-error": "^1.0.0"
   },
   "devDependencies": {
-    "ava": "~0.25.0",
+    "ava": "~1.2.1",
     "greenkeeper-lockfile": "^1.15.1",
     "grpc": "^1.13.1",
     "grpc-caller": "^0.9.0",

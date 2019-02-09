@@ -3,7 +3,7 @@ const create = require('grpc-create-error')
 /**
  * Mali authorization metadata middleware.
  * If the call has metadata with "authorization" string property the specified function is called
- * @module mali-metadata-auth
+ * @module @malijs/metadata-auth
  *
  * @param  {Options} options
  * @param  {String|Object|Function} options.error optional Error creation options.
@@ -18,7 +18,7 @@ const create = require('grpc-create-error')
  * @param  {Function} fn The middleware function to execute
  *
  * @example
- * const auth = require('mali-metadata-auth')
+ * const auth = require('@malijs/metadata-auth')
  *
  * app.use(auth(async (authValue, ctx, next) => {
  *   console.log(authValue)

@@ -25,21 +25,27 @@
   ],
   "scripts": {
     "test": "ava -v",
-    "docs": "jsdoc2md index.js --heading-depth 3 --template readme.hbs > README.md"
+    "docs": "jsdoc2md index.js --heading-depth 3 --template readme.hbs > README.md",
+    "lint.fix": "standard --fix"
   },
   "dependencies": {
-    "grpc-create-error": "^1.0.0"
+    "@eeston/grpc-create-error": "^2.0.0"
   },
   "devDependencies": {
-    "ava": "~1.2.0",
-    "grpc": "^1.18.0",
-    "grpc-caller": "^0.11.0",
-    "jsdoc-to-markdown": "^4.0.1",
-    "mali": "^0.11.0",
-    "p-map": "^1.1.0",
-    "standard": "^12.0.0"
+    "@eeston/grpc-caller": "^0.20.2",
+    "@grpc/grpc-js": "^1.2.12",
+    "ava": "^3.15.0",
+    "jsdoc-to-markdown": "^7.0.1",
+    "mali": "^0.41.2",
+    "p-map": "^4.0.0",
+    "standard": "^16.0.3"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "standard": {
+    "ignore": [
+      "**/*.proto"
+    ]
   }
 }

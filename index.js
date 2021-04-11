@@ -1,4 +1,4 @@
-const create = require('grpc-create-error')
+const create = require('@eeston/grpc-create-error')
 
 /**
  * Mali authorization metadata middleware.

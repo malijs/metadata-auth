@@ -1,12 +1,11 @@
-import test from 'ava'
-import path from 'path'
-import caller from 'grpc-caller'
-import Mali from 'mali'
-import grpc from 'grpc'
-import pMap from 'p-map'
-import create from 'grpc-create-error'
+const test = require('ava')
+const path = require('path')
+const caller = require('grpc-caller')
+const Mali = require('mali')
+const grpc = require('@grpc/grpc-js')
+const create = require('grpc-create-error')
 
-import auth from '../'
+const auth = require('../')
 
 function getRandomInt (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -44,7 +43,7 @@ test.before('should dynamically create service', t => {
 
   const errMetadata2 = { type: 'AUTH' }
   async function auth4 (key, ctx, next) {
-    if (key !== '4444') throw create('Unauthorized 4', 4004, errMetadata2)
+    if (key !== '4444') throw create('Unauthorized 4', 16, errMetadata2)
     await next()
   }
 
@@ -54,7 +53,7 @@ test.before('should dynamically create service', t => {
   app.use('fn1', auth(auth1), handler)
   app.use('fn2', auth({ error: 'Unauthorized' }, auth2), handler)
   app.use('fn3', auth({ error: { metadata: errMetadata } }, auth3), handler)
-  app.use('fn4', auth({ error: () => create('Unauthorized', 4000, errMetadata2) }, auth4), handler)
+  app.use('fn4', auth({ error: () => create('Unauthorized', 16, errMetadata2) }, auth4), handler)
   app.start(DYNAMIC_HOST)
 
   client = caller(DYNAMIC_HOST, PROTO_PATH, 'AuthService')
@@ -193,13 +192,13 @@ test('Should work with fn3 with correct authorization 2', async t => {
 
 // fn4 -----
 
-test('Should fail with fn4 withouth metadata', async t => {
+test('Should fail with fn4 without metadata', async t => {
   t.plan(6)
   const error = await t.throwsAsync(client.fn4({ message: 'hello' }))
   t.true(error.message.indexOf('Unauthorized') >= 0)
   t.truthy(error.metadata)
   t.true(error.metadata instanceof grpc.Metadata)
-  t.is(error.code, 4000)
+  t.is(error.code, 16)
   const md = error.metadata.getMap()
   t.is(md.type, 'AUTH')
 })
@@ -212,7 +211,7 @@ test('Should fail with fn4 without authorization', async t => {
   t.true(error.message.indexOf('Unauthorized') >= 0)
   t.truthy(error.metadata)
   t.true(error.metadata instanceof grpc.Metadata)
-  t.is(error.code, 4000)
+  t.is(error.code, 16)
   const md = error.metadata.getMap()
   t.is(md.type, 'AUTH')
 })
@@ -225,7 +224,7 @@ test('Should fail with fn4 without correct authorization', async t => {
   t.true(error.message.indexOf('Unauthorized 4') >= 0)
   t.truthy(error.metadata)
   t.true(error.metadata instanceof grpc.Metadata)
-  t.is(error.code, 4004)
+  t.is(error.code, 16)
   const md = error.metadata.getMap()
   t.is(md.type, 'AUTH')
 })
@@ -247,5 +246,5 @@ test('Should work with fn4 with correct authorization 2', async t => {
 })
 
 test.after.always('cleanup', async t => {
-  await pMap(apps, app => app.close())
+  await Promise.all(apps, app => app.close())
 })
